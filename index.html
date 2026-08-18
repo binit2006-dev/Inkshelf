@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inkshelf — Notes, found faster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="tab"></span>Inkshelf</div>
+    <nav class="links">
+      <a onclick="scrollToId('browse')">Browse</a>
+      <a onclick="openUploadModal()">Upload</a>
+      <a onclick="scrollToId('discuss')">Discuss</a>
+      <a onclick="scrollToId('ai-feature')">AI Study Tools</a>
+    </nav>
+    <div class="nav-search">
+      <input id="navSearchInput" placeholder="Search subject, chapter, tag…" onkeydown="if(event.key==='Enter') runSearch(this.value)">
+    </div>
+    <div class="nav-actions" id="navActions"></div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Built for exam week</div>
+      <h1>Every note your seniors<br><em>wish they'd found</em> sooner.</h1>
+      <p class="hero-sub">One shelf for every branch, every semester. Upload what you've got, search what you need, and let ratings from real students point you to the good stuff — fast.</p>
+      <div class="hero-search">
+        <input id="heroSearchInput" placeholder='Try "Basic Electrical Engineering Module 2"' onkeydown="if(event.key==='Enter') runSearch(this.value)">
+        <button class="btn btn-primary" onclick="runSearch(document.getElementById('heroSearchInput').value)">Search</button>
+      </div>
+      <div class="hero-chips">
+        <span class="chip" onclick="quickFilter('branch','CSE')">CSE</span>
+        <span class="chip" onclick="quickFilter('branch','ECE')">ECE</span>
+        <span class="chip" onclick="quickFilter('branch','Mechanical')">Mechanical</span>
+        <span class="chip" onclick="quickFilter('branch','Common')">1st Year Common</span>
+        <span class="chip" onclick="scrollToId('ai-feature')">✨ AI Summaries</span>
+      </div>
+      <div class="hero-stats">
+        <div><b id="statNotes">0</b><span>Notes shared</span></div>
+        <div><b id="statDownloads">0</b><span>Downloads</span></div>
+        <div><b>4.7★</b><span>Avg. rating</span></div>
+      </div>
+    </div>
+    <div class="fan">
+      <div class="fan-card fan-1">
+        <div class="top-holes"><span></span><span></span><span></span></div>
+        <div class="ftitle">Thermodynamics</div>
+        <div class="fline w1"></div><div class="fline"></div><div class="fline short"></div>
+        <span class="ftag" style="background:var(--yellow)">Mechanical · Sem 4</span>
+      </div>
+      <div class="fan-card fan-2">
+        <div class="top-holes"><span></span><span></span><span></span></div>
+        <div class="ftitle">Digital Electronics</div>
+        <div class="fline w1"></div><div class="fline"></div><div class="fline short"></div>
+        <span class="ftag" style="background:var(--mint)">ECE · Sem 3</span>
+      </div>
+      <div class="fan-card fan-3">
+        <div class="top-holes"><span></span><span></span><span></span></div>
+        <div class="ftitle">Data Structures</div>
+        <div class="fline w1"></div><div class="fline"></div><div class="fline short"></div>
+        <span class="ftag" style="background:var(--coral); color:#fff;">CSE · Sem 3</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BROWSE ================= -->
+<section id="browse">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">the shelf</div>
+        <h2>Browse & filter notes</h2>
+        <p>Narrow things down by branch, semester or chapter — or just search for the topic on tomorrow's exam.</p>
+      </div>
+      <button class="btn btn-accent" onclick="openUploadModal()">＋ Upload notes</button>
+    </div>
+
+    <div class="browse-layout">
+      <aside class="filters">
+        <div class="filter-group">
+          <h4>Branch</h4>
+          <div id="filterBranch"></div>
+        </div>
+        <div class="filter-group">
+          <h4>Semester</h4>
+          <div id="filterSemester"></div>
+        </div>
+        <div class="filter-group">
+          <h4>File type</h4>
+          <div id="filterType"></div>
+        </div>
+        <button class="clear-filters" onclick="clearFilters()">Clear all filters</button>
+      </aside>
+
+      <div>
+        <div class="results-bar">
+          <span class="results-count" id="resultsCount">Showing all notes</span>
+          <select class="sortby" id="sortBy" onchange="renderNotes()">
+            <option value="popular">Most downloaded</option>
+            <option value="rating">Top rated</option>
+            <option value="recent">Newest first</option>
+          </select>
+        </div>
+        <div class="notes-grid" id="notesGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AI FEATURE ================= -->
+<section id="ai-feature">
+  <div class="wrap">
+    <div class="ai-panel">
+      <div>
+        <div class="kicker">the highlight feature</div>
+        <h2>Let AI read the notes before you do.</h2>
+        <p>Open any PDF on the shelf and generate a summary, key-topic highlights, and a quick quiz — built to match how it'll actually show up on your exam.</p>
+        <ul class="ai-list">
+          <li><span class="num">01</span>Concise summaries of long chapters, in plain language.</li>
+          <li><span class="num">02</span>Key topics highlighted, so you know what's actually testable.</li>
+          <li><span class="num">03</span>Exam-focused questions pulled straight from the content.</li>
+          <li><span class="num">04</span>A quick quiz to check what's sticking before you close the tab.</li>
+        </ul>
+        <button class="btn btn-accent" style="margin-top:24px;" onclick="scrollToId('browse')">Try it on a note</button>
+      </div>
+      <div class="mock-window">
+        <div class="mw-head"><span></span><span></span><span></span></div>
+        <div class="mock-line w1"></div>
+        <div class="mock-line w2"></div>
+        <div class="mock-line w3"></div>
+        <div class="mock-line w1"></div>
+        <div class="mock-line w2"></div>
+        <span class="mock-badge">Summary ready · 6 key topics found</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DISCUSSION ================= -->
+<section id="discuss">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">stuck on something?</div>
+        <h2>Doubt discussion</h2>
+        <p>Ask what's confusing you. Chances are three other people on your shelf are wondering the same thing.</p>
+      </div>
+      <button class="btn btn-ghost" onclick="openDoubtModal()">Ask a doubt</button>
+    </div>
+    <div class="discuss-list" id="discussList"></div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="brand"><span class="tab"></span>Inkshelf</div>
+      <p class="tag">The shared shelf for lecture notes, lab records and last-night-before-the-exam wisdom — organized, rated, and ready when you are.</p>
+    </div>
+    <div>
+      <h5>Platform</h5>
+      <ul><a onclick="scrollToId('browse')">Browse notes</a><a onclick="openUploadModal()">Upload notes</a><a onclick="scrollToId('ai-feature')">AI study tools</a><a onclick="scrollToId('discuss')">Doubt discussion</a></ul>
+    </div>
+    <div>
+      <h5>Community</h5>
+      <ul><a>Contributor guidelines</a><a>Top contributors</a><a>College communities</a><a>Become a verified educator</a></ul>
+    </div>
+    <div>
+      <h5>Support</h5>
+      <ul><a>Help center</a><a>Report an issue</a><a>Terms & privacy</a></ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>Inkshelf — sample data seeded from MongoDB.</span>
+    <span>© 2026 Inkshelf</span>
+  </div>
+</footer>
+
+<!-- ================= AUTH MODAL ================= -->
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="authTitle">Welcome back</h3>
+      <button class="modal-close" onclick="closeModal('authOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">Log in</button>
+        <button class="tab-btn" id="tabSignup" onclick="switchAuthTab('signup')">Sign up</button>
+      </div>
+      <form onsubmit="return handleAuth(event)">
+        <div class="field" id="nameField" style="display:none;">
+          <label>Full name</label>
+          <input type="text" id="authName" placeholder="Riya Sharma">
+        </div>
+        <div class="field">
+          <label>Email or college ID</label>
+          <input type="text" id="authEmail" placeholder="riya@college.edu" required>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="authPassword" placeholder="••••••••" required>
+        </div>
+        <button class="btn btn-primary" style="width:100%; padding:13px; margin-top:6px;" type="submit" id="authSubmitBtn">Log in</button>
+        <p class="form-note" id="authError" style="text-align:center; margin-top:14px; color:var(--coral-deep);"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ================= UPLOAD MODAL ================= -->
+<div class="overlay" id="uploadOverlay">
+  <div class="modal wide">
+    <div class="modal-head">
+      <h3>Upload notes</h3>
+      <button class="modal-close" onclick="closeModal('uploadOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="return handleUpload(event)">
+        <div class="dropzone" onclick="document.getElementById('fileInput').click()">
+          <strong id="dropzoneLabel">Click to choose a file</strong>
+          PDF, PPT, DOC/DOCX, or photos of handwritten pages
+          <input type="file" id="fileInput" style="display:none" onchange="handleFileChosen(this)">
+        </div>
+        <div class="field" style="margin-top:18px;">
+          <label>Title</label>
+          <input type="text" id="upTitle" placeholder="e.g. Data Structures – Unit 3" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Subject</label>
+            <input type="text" id="upSubject" placeholder="Data Structures" required>
+          </div>
+          <div class="field">
+            <label>Branch</label>
+            <select id="upBranch">
+              <option>CSE</option><option>ECE</option><option>Mechanical</option><option>Civil</option><option>Common</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Semester</label>
+            <select id="upSemester">
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Chapter / Module</label>
+            <input type="text" id="upChapter" placeholder="Unit 3">
+          </div>
+        </div>
+        <div class="field">
+          <label>Keywords / tags (comma separated)</label>
+          <input type="text" id="upTags" placeholder="trees, linked list, recursion">
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="upDesc" rows="3" placeholder="What's covered in these notes?"></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%; padding:13px; margin-top:6px;" type="submit">Publish to the shelf</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NOTE DETAIL MODAL ================= -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal wide">
+    <div class="modal-head">
+      <h3 id="detailTitle">Note title</h3>
+      <button class="modal-close" onclick="closeModal('detailOverlay')">✕</button>
+    </div>
+    <div class="modal-body" id="detailBody"></div>
+  </div>
+</div>
+
+<!-- ================= AI SUMMARY MODAL ================= -->
+<div class="overlay" id="aiOverlay">
+  <div class="modal wide">
+    <div class="modal-head">
+      <h3>✨ AI study tools</h3>
+      <button class="modal-close" onclick="closeModal('aiOverlay')">✕</button>
+    </div>
+    <div class="modal-body" id="aiBody"></div>
+  </div>
+</div>
+
+<!-- ================= QUIZ MODAL ================= -->
+<div class="overlay" id="quizOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Quick quiz</h3>
+      <button class="modal-close" onclick="closeModal('quizOverlay')">✕</button>
+    </div>
+    <div class="modal-body" id="quizBody"></div>
+  </div>
+</div>
+
+<!-- ================= DOUBT MODAL ================= -->
+<div class="overlay" id="doubtOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Ask a doubt</h3>
+      <button class="modal-close" onclick="closeModal('doubtOverlay')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="return handleDoubtSubmit(event)">
+        <div class="field">
+          <label>Your question</label>
+          <textarea id="doubtQ" rows="3" placeholder="e.g. Can someone explain Kirchhoff's Voltage Law simply?" required></textarea>
+        </div>
+        <div class="field">
+          <label>Tag it (optional)</label>
+          <input type="text" id="doubtTag" placeholder="Basic Electrical Engineering">
+        </div>
+        <button class="btn btn-primary" style="width:100%; padding:13px;" type="submit">Post question</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

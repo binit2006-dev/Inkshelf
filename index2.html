@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inkshelf — Notes, found faster</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces&family=Public+Sans&family=Caveat&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="tab"></span>Inkshelf</div>
+
+    <nav class="links">
+      <a href="#browse">Browse</a>
+      <a href="#upload">Upload</a>
+      <a href="#discuss">Discuss</a>
+      <a href="#ai-feature">AI Study Tools</a>
+    </nav>
+
+    <div class="nav-search">
+      <input placeholder="Search subject, chapter, tag…">
+    </div>
+
+    <div class="nav-actions"></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Built for exam week</div>
+
+      <h1>Every note your seniors<br><em>wish they'd found</em> sooner.</h1>
+
+      <p class="hero-sub">
+        One shelf for every branch, every semester. Upload what you've got,
+        search what you need, and let ratings guide you fast.
+      </p>
+
+      <div class="hero-search">
+        <input placeholder='Try "Basic Electrical Engineering Module 2"'>
+        <button class="btn btn-primary">Search</button>
+      </div>
+
+      <div class="hero-chips">
+        <span class="chip">CSE</span>
+        <span class="chip">ECE</span>
+        <span class="chip">Mechanical</span>
+        <span class="chip">1st Year Common</span>
+        <span class="chip">✨ AI Summaries</span>
+      </div>
+
+      <div class="hero-stats">
+        <div><b>0</b><span>Notes shared</span></div>
+        <div><b>0</b><span>Downloads</span></div>
+        <div><b>4.7★</b><span>Avg. rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BROWSE -->
+<section id="browse">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">the shelf</div>
+        <h2>Browse & filter notes</h2>
+        <p>Filter by branch, semester or chapter.</p>
+      </div>
+      <button class="btn btn-accent">＋ Upload notes</button>
+    </div>
+
+    <div class="browse-layout">
+      <aside class="filters">
+        <div class="filter-group">
+          <h4>Branch</h4>
+        </div>
+
+        <div class="filter-group">
+          <h4>Semester</h4>
+        </div>
+
+        <div class="filter-group">
+          <h4>File type</h4>
+        </div>
+
+        <button class="clear-filters">Clear all filters</button>
+      </aside>
+
+      <div>
+        <div class="results-bar">
+          <span class="results-count">Showing all notes</span>
+
+          <select class="sortby">
+            <option>Most downloaded</option>
+            <option>Top rated</option>
+            <option>Newest first</option>
+          </select>
+        </div>
+
+        <div class="notes-grid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI FEATURE -->
+<section id="ai-feature">
+  <div class="wrap">
+    <div class="ai-panel">
+      <div>
+        <div class="kicker">the highlight feature</div>
+
+        <h2>Let AI read the notes before you do.</h2>
+
+        <p>Generate summaries, highlights, and quizzes.</p>
+
+        <ul class="ai-list">
+          <li>Concise summaries</li>
+          <li>Key topics highlighted</li>
+          <li>Exam-focused questions</li>
+          <li>Quick quizzes</li>
+        </ul>
+
+        <button class="btn btn-accent">Try it on a note</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCUSSION -->
+<section id="discuss">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">stuck on something?</div>
+        <h2>Doubt discussion</h2>
+        <p>Ask questions and get help.</p>
+      </div>
+
+      <button class="btn btn-ghost">Ask a doubt</button>
+    </div>
+
+    <div class="discuss-list"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="brand"><span class="tab"></span>Inkshelf</div>
+      <p class="tag">Your shared notes platform.</p>
+    </div>
+
+    <div>
+      <h5>Platform</h5>
+      <ul>
+        <li><a href="#browse">Browse notes</a></li>
+        <li><a href="#">Upload notes</a></li>
+        <li><a href="#ai-feature">AI tools</a></li>
+        <li><a href="#discuss">Discussion</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Support</h5>
+      <ul>
+        <li><a href="#">Help center</a></li>
+        <li><a href="#">Report issue</a></li>
+        <li><a href="#">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap foot-bottom">
+    <span>© 2026 Inkshelf</span>
+  </div>
+</footer>
+
+</body>
+</html>
